@@ -1,0 +1,17 @@
+__pycache__/
+*.pyc
+.venv/
+build/
+dist/
+release/
+_research/
+_design/
+_recover/
+_testchrome/
+gui.pid
+*.log
+*.spec
+*.exe
+Thumbs.db
+desktop.ini
+.DS_Store

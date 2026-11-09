@@ -1,0 +1,38 @@
+; WinUSB binding for the DJI Mic Series Mobile Receiver's vendor interface (MI_06).
+; Target hardware id: USB\VID_2CA3&PID_4011&MI_06
+; Binds Microsoft's winusb.sys so user-mode code can reach Bulk OUT 0x06 / Bulk IN 0x86.
+;
+; Adapted from hogancv/dji-mic-mini-monitor (MIT). See docs/CREDITS.md.
+
+[Version]
+Signature   = "$Windows NT$"
+Class       = USBDevice
+ClassGuid   = {88BAE032-5A81-49f0-BC3D-A4FF138216D6}
+Provider    = %PROVIDER%
+DriverVer   = 11/08/2026,1.0.0.0
+CatalogFile = djimic_pc_winusb.cat
+PnpLockdown = 1
+
+[Manufacturer]
+%PROVIDER% = DJIMic,NTamd64
+
+[DJIMic.NTamd64]
+%DEVICE% = DJIMic_Install, USB\VID_2CA3&PID_4011&MI_06
+
+[DJIMic_Install.NT]
+Include = winusb.inf
+Needs   = WINUSB.NT
+
+[DJIMic_Install.NT.Services]
+Include = winusb.inf
+Needs   = WINUSB.NT.Services
+
+[DJIMic_Install.NT.HW]
+AddReg  = DJIMic_HW
+
+[DJIMic_HW]
+HKR,,DeviceInterfaceGUIDs,0x10000,"{A5DCBF10-6530-11D2-901F-00C04FB951ED}"
+
+[Strings]
+PROVIDER = "DJI Mic PC Control WinUSB"
+DEVICE   = "DJI Mic Control Interface"

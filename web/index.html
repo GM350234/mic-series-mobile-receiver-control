@@ -1,0 +1,220 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="color-scheme" content="light dark" />
+  <title>Mic Series Mobile Receiver 电脑控制台</title>
+  <link rel="icon" type="image/x-icon" href="assets/icon.ico" />
+  <script>
+    try {
+      const saved = localStorage.getItem('theme');
+      if (saved === 'light' || saved === 'dark') document.documentElement.dataset.theme = saved;
+    } catch (e) {}
+  </script>
+  <link rel="stylesheet" href="assets/endfield.css?v=20261109c" />
+  <link rel="stylesheet" href="app.css?v=20261109c" />
+</head>
+<body class="ef ef-contours">
+  <div class="ef-tri ef-in-sweep" aria-hidden="true"><i></i><i></i><i></i></div>
+
+  <header class="ef-cmdbar">
+    <a class="brand" href="#overview" aria-label="Mic Series Mobile Receiver 电脑控制台">
+      <span class="seal" aria-hidden="true">
+        <svg viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="square">
+          <path d="M6 10v4M10 7v10M14 9v6M18 11v2" />
+        </svg>
+      </span>
+      <span class="brand-copy">
+        <span class="brand-en">MIC SERIES</span>
+        <small>MOBILE RECEIVER</small>
+      </span>
+    </a>
+    <nav aria-label="分区">
+      <a href="#overview" data-nav="overview" aria-current="page">总览<small>Overview</small></a>
+      <a href="#transmitters" data-nav="transmitters">发射器<small>Transmitters</small></a>
+      <a href="#device" data-nav="device">设备<small>Device</small></a>
+      <a href="#log" data-nav="log">日志<small>Log</small></a>
+    </nav>
+    <div class="util">
+      <span class="link" id="linkPill"><i></i><span id="linkLabel">连接中</span></span>
+      <button class="ef-btn small" id="reconnectBtn" type="button">重新检测</button>
+      <button class="ef-btn small" id="themeBtn" type="button" data-theme-toggle aria-pressed="false">深色</button>
+    </div>
+  </header>
+
+  <main id="top">
+    <div id="notice" class="ef-notice app-notice" hidden>
+      <span id="noticeText"></span>
+      <button class="ef-btn small" id="noticeAction" type="button" hidden></button>
+    </div>
+
+    <section class="hero" id="overview" aria-labelledby="heroTitle">
+      <div class="hero-head">
+        <div class="hero-title">
+          <div class="ef-eyebrow slash">// RECEIVER CONSOLE</div>
+          <h1 id="heroTitle">接收器<span>控制台</span></h1>
+          <p class="hero-sub">MIC SERIES MOBILE RECEIVER ｜ 不用拔到手机，在 Windows 上直接改设置。</p>
+        </div>
+        <div class="hero-fields" aria-label="接收器信息">
+          <div class="hero-field"><small>Firmware</small><b id="fwField">—</b></div>
+          <div class="hero-field"><small>Serial</small><b id="snField">—</b></div>
+          <div class="hero-field"><small>Link</small><b id="linkField">—</b></div>
+        </div>
+      </div>
+
+      <div class="board">
+        <section class="ef-panel cut-br panel-gain ef-in-power" style="--i:0" aria-labelledby="gainTitle">
+          <h2 id="gainTitle"><span class="ef-pair"><span class="ef-eyebrow">01 / Gain</span><span>增益</span></span><span class="panel-note">−12…+12 dB</span></h2>
+          <div class="readout"><b id="gainBig" data-fx-load>+6</b><span class="unit">dB</span></div>
+          <div class="gain-slider" id="gainSlider" role="slider" tabindex="0"
+               aria-label="接收器增益" aria-orientation="horizontal"
+               aria-valuemin="-12" aria-valuemax="12" aria-valuenow="6" aria-valuetext="+6 dB">
+            <div class="gain-rail" id="gainRail">
+              <div class="gain-fill" id="gainFill" aria-hidden="true"></div>
+              <div class="gain-current" id="gainCurrent" aria-hidden="true"></div>
+              <div class="gain-thumb" id="gainThumb" aria-hidden="true"><i></i></div>
+            </div>
+            <div class="gain-ticks" id="gainTicks" aria-hidden="true">
+              <span data-db="-12">−12</span>
+              <span data-db="-6">−6</span>
+              <span data-db="0">0</span>
+              <span data-db="6">+6</span>
+              <span data-db="12">+12</span>
+            </div>
+          </div>
+          <p class="panel-copy">拖动滑块选择，再点“应用增益”写入接收器；每档 6 dB。</p>
+          <div class="panel-foot">
+            <button class="ef-btn go" id="applyGain" type="button" disabled>应用增益</button>
+            <span class="foot-note" id="gainNote">当前 +6 dB</span>
+          </div>
+        </section>
+
+        <section class="ef-panel cut-bl tab-right panel-channel ef-in-power" style="--i:1" aria-labelledby="channelTitle">
+          <h2 id="channelTitle"><span class="ef-pair"><span class="ef-eyebrow">02 / Channel</span><span>声道</span></span><span class="panel-note">MONO / STEREO</span></h2>
+          <div class="readout channel-readout"><b id="channelBig" data-fx-load>MONO</b><span class="unit" id="channelUnit">单声道</span></div>
+          <div class="channel-diagram" id="channelDiagram" aria-hidden="true">
+            <svg viewBox="0 0 230 64" preserveAspectRatio="none">
+              <g class="diagram-mono">
+                <path d="M8 16 H74 L116 32 H158" />
+                <path d="M8 48 H74 L116 32" />
+                <rect class="node" x="158" y="27" width="9" height="9" />
+                <text x="174" y="36">MIX</text>
+              </g>
+              <g class="diagram-stereo">
+                <path d="M8 16 H158" />
+                <path d="M8 48 H158" />
+                <rect class="node" x="158" y="11" width="9" height="9" />
+                <rect class="node" x="158" y="43" width="9" height="9" />
+                <text x="174" y="20">L</text>
+                <text x="174" y="52">R</text>
+              </g>
+            </svg>
+          </div>
+          <div class="seg" id="channelSeg" role="group" aria-label="声道模式">
+            <button type="button" data-mode="0"><b>单声道</b><small>MONO / MIX</small></button>
+            <button type="button" data-mode="2"><b>立体声</b><small>STEREO / L·R</small></button>
+          </div>
+          <div class="panel-foot">
+            <button class="ef-btn go" id="applyChannel" type="button" disabled>应用声道</button>
+            <span class="foot-note" id="channelNote">单声道会把两路混合</span>
+          </div>
+        </section>
+
+        <section class="ef-panel cut-tr panel-power ef-in-power" style="--i:2" aria-labelledby="powerTitle">
+          <h2 id="powerTitle"><span class="ef-pair"><span class="ef-eyebrow">03 / Power</span><span>电源与状态</span></span></h2>
+          <ul class="ef-ledger power-ledger">
+            <li>
+              <span>15 分钟自动关机</span>
+              <button class="switch" id="autoOffSwitch" type="button" role="switch" aria-checked="true">
+                <span class="track" aria-hidden="true"></span><span class="label" id="autoOffLabel">开</span>
+              </button>
+            </li>
+            <li><span>降噪（硬件开关）</span><span class="ef-field" id="ncState">—</span></li>
+            <li><span>USB 连接</span><span class="ef-field" id="usbState">—</span></li>
+            <li><span>已连接发射器</span><span class="ef-field" id="txCount">0 / 2</span></li>
+          </ul>
+          <p class="panel-copy power-copy">降噪档位由接收器侧面的 O / L / H 开关控制，软件只读取状态。</p>
+        </section>
+      </div>
+    </section>
+
+    <section class="section" id="transmitters" aria-labelledby="txTitle">
+      <div class="section-head">
+        <div>
+          <div class="ef-eyebrow slash">// 04 / TRANSMITTERS</div>
+          <h2 id="txTitle">发射器</h2>
+        </div>
+        <p>电量、充电、降噪与实时电平由接收器转发。</p>
+      </div>
+      <div class="tx-grid" id="txGrid">
+        <article class="tx-card" data-tx="1">
+          <header class="tx-head">
+            <span class="tx-no">TX 01</span>
+            <span class="tx-product" data-f="product">—</span>
+            <span class="ef-state" data-f="state">—</span>
+          </header>
+          <div class="tx-main">
+            <div class="tx-percent"><b data-f="percent">—</b><span>%</span><small data-f="gauge">电量 —/7</small></div>
+            <div class="tx-cells" data-f="cells" aria-hidden="true"></div>
+          </div>
+          <ul class="ef-ledger tx-ledger">
+            <li><span>充电</span><span class="ef-field" data-f="charging">—</span></li>
+            <li><span>降噪</span><span class="ef-field" data-f="nc">—</span></li>
+            <li><span>输入电平</span><span class="level"><i data-f="level"></i></span></li>
+          </ul>
+          <p class="tx-empty" data-f="empty">打开发射器后会自动出现在这里。</p>
+        </article>
+        <article class="tx-card is-offline" data-tx="2">
+          <header class="tx-head">
+            <span class="tx-no">TX 02</span>
+            <span class="tx-product" data-f="product">未连接</span>
+            <span class="ef-state" data-f="state">离线</span>
+          </header>
+          <div class="tx-main">
+            <div class="tx-percent"><b data-f="percent">—</b><span>%</span><small data-f="gauge">电量 —/7</small></div>
+            <div class="tx-cells" data-f="cells" aria-hidden="true"></div>
+          </div>
+          <ul class="ef-ledger tx-ledger">
+            <li><span>充电</span><span class="ef-field" data-f="charging">—</span></li>
+            <li><span>降噪</span><span class="ef-field" data-f="nc">—</span></li>
+            <li><span>输入电平</span><span class="level"><i data-f="level"></i></span></li>
+          </ul>
+          <p class="tx-empty" data-f="empty">打开第二个发射器后会自动出现在这里。</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="section split" id="device" aria-labelledby="deviceTitle">
+      <section class="ef-panel device-panel" aria-labelledby="deviceTitle">
+        <h2 id="deviceTitle"><span class="ef-pair"><span class="ef-eyebrow">05 / Device</span><span>接收器</span></span></h2>
+        <ul class="ef-ledger">
+          <li><span>产品</span><span class="ef-field" id="devProduct">—</span></li>
+          <li><span>固件</span><span class="ef-field" id="devFw">—</span></li>
+          <li><span>序列号</span><span class="ef-field" id="devSn">—</span></li>
+          <li><span>控制接口</span><span class="ef-field" id="devDriver">—</span></li>
+          <li><span>连接方式</span><span class="ef-field" id="devLink">—</span></li>
+        </ul>
+        <div class="panel-foot device-actions">
+          <button class="ef-btn small" id="copyDiag" type="button">复制诊断信息</button>
+          <button class="ef-btn small danger" id="quitBtn" type="button">退出控制台</button>
+        </div>
+      </section>
+
+      <section class="ef-panel log-panel" id="log" aria-labelledby="logTitle">
+        <h2 id="logTitle"><span class="ef-pair"><span class="ef-eyebrow">06 / Log</span><span>运行日志</span></span><span class="panel-note">LIVE</span></h2>
+        <pre id="logList" aria-live="polite">等待控制接口连接…</pre>
+      </section>
+    </section>
+
+    <footer class="app-footer">
+      <span>非官方工具 ｜ 协议来自社区逆向 ｜ 不包含 DJI 官方素材</span>
+      <span class="footer-spacer"></span>
+      <span>MIC SERIES MOBILE RECEIVER · WINDOWS</span>
+      <span id="version">v1.0.0</span>
+    </footer>
+  </main>
+
+  <script type="module" src="app.js?v=20261109c"></script>
+</body>
+</html>
