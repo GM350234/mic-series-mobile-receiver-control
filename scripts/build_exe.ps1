@@ -20,6 +20,7 @@ Copy-Item (Join-Path $root 'driver') $release -Recurse
 Copy-Item (Join-Path $root 'README.md') $release
 Copy-Item (Join-Path $root '使用说明.txt') $release
 Copy-Item (Join-Path $root 'LICENSE') $release
+Copy-Item (Join-Path $root 'THIRD_PARTY_NOTICES.md') $release
 New-Item -ItemType Directory -Path (Join-Path $release 'docs') -Force | Out-Null
 Copy-Item (Join-Path $root 'docs\screenshot.png') (Join-Path $release 'docs')
 Copy-Item (Join-Path $root 'docs\screenshot-dark.png') (Join-Path $release 'docs')

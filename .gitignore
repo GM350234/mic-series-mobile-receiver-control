@@ -1,6 +1,7 @@
 __pycache__/
 *.pyc
 .venv/
+vendor/
 build/
 dist/
 release/

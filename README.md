@@ -152,6 +152,10 @@ python -m PyInstaller --noconfirm --clean --onefile --windowed `
 
 产物在 `dist\MicSeriesControl.exe`。发布时把 exe、`driver\`、`README.md`、`使用说明.txt`、`LICENSE` 和 `docs\` 放进同一个文件夹，压缩成 zip；`release/` 已被 `.gitignore` 排除，建议把 zip 挂到 GitHub Releases，而不是提交进仓库。
 
+## Agent 交接
+
+见 [AGENTS.md](AGENTS.md)：代码注释地图、协议不变量、WinUSB / 浏览器缓存 / 编码坑、构建发布与调试清单。
+
 ## 许可与致谢
 
 本项目代码以 MIT 许可发布。界面设计语言来自 [hhikr/endfield-ui-skill](https://github.com/hhikr/endfield-ui-skill)（其代码、模板与 token 可自由使用），Saira 字体为 SIL OFL 1.1；WinUSB 的 ctypes 管线与驱动 INF/脚本改编自 [hogancv/dji-mic-mini-monitor](https://github.com/hogancv/dji-mic-mini-monitor)（MIT）；协议事实来自 [ShadowBitBasher/DJI-Mic-Control](https://github.com/ShadowBitBasher/DJI-Mic-Control)（Unlicense）与 [piedol/lavdeck](https://github.com/piedol/lavdeck)（GPL-3.0，仅参考文档，未复制代码）。完整列表见 [`docs/CREDITS.md`](docs/CREDITS.md)，第三方许可全文见 [`THIRD_PARTY_NOTICES.md`](THIRD_PARTY_NOTICES.md)。
